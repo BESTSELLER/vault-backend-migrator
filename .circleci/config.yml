@@ -1,0 +1,43 @@
+version: 2.1
+
+executors:
+  docker_image:
+    docker:
+      - image: docker:stable-git
+orbs:
+  secret-injector: bestsellerit/secret-injector@0.0.217
+
+jobs:
+  build_n_push:
+    executor: docker_image
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build and Push image.
+          command: |
+            docker login -u $docker_harpocrates_username -p $docker_harpocrates_password $K8S_CLUSTER_docker_registry_url
+            docker build \
+              -t $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM \
+              -t $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:latest \
+              .
+            docker push $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
+            docker push $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:latest
+
+workflows:
+  build_deploy_dev:
+    jobs:
+      - secret-injector/dump-secrets:
+          vault-path: ES/gke/es02-prod
+          output-type: json
+          context: es02-prod
+          # filters:
+          #   branches:
+          #     only: dev
+      - build_n_push:
+          context: es02-prod
+          requires:
+            - secret-injector/dump-secrets
+          # filters:
+          #   branches:
+          #     only: dev
