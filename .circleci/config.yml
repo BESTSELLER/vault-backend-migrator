@@ -16,13 +16,14 @@ jobs:
       - run:
           name: Build and Push image.
           command: |
+            source /tmp/secrets.env
             docker login -u $docker_harpocrates_username -p $docker_harpocrates_password $K8S_CLUSTER_docker_registry_url
             docker build \
-              -t $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM \
-              -t $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:latest \
+              -t $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM \
+              -t $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:latest \
               .
-            docker push $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
-            docker push $K8S_CLUSTER_docker_registry_url/library/$CIRCLE_PROJECT_REPONAME:latest
+            docker push $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
+            docker push $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:latest
 
 workflows:
   build_deploy_dev:
