@@ -6,7 +6,5 @@ RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /tmp/vault-backend-migr
 
 FROM alpine
 COPY --from=builder /tmp/vault-backend-migrator /vault-backend-migrator
-COPY docker-entrypoint.sh /
-RUN chmod +x "/docker-entrypoint.sh"
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/vault-backend-migrator"]
+
+CMD ["/bin/sh"]
