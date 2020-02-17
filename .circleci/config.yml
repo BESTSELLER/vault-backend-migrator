@@ -19,7 +19,7 @@ jobs:
           name: Build and Push image.
           command: |
             source /tmp/secrets.env
-            docker login -u $docker_harpocrates_username -p $docker_harpocrates_password $K8S_CLUSTER_docker_registry_url
+            docker login -u $docker_harpocrates_username -p $DOCKER_password $K8S_CLUSTER_docker_registry_url
             docker build \
               -t $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM \
               -t $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:latest \
@@ -28,7 +28,7 @@ jobs:
             docker push $K8S_CLUSTER_docker_registry_url/$SHORT/$CIRCLE_PROJECT_REPONAME:latest
 
 workflows:
-  build_deploy_dev:
+  build_deploy:
     jobs:
       - secret-injector/dump-secrets:
           vault-path: ES/gke/es02-prod
