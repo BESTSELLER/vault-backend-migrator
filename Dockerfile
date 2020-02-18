@@ -6,6 +6,6 @@ RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /tmp/vault-backend-migr
 
 FROM google/cloud-sdk:alpine
 COPY --from=builder /tmp/vault-backend-migrator /vault-backend-migrator
-RUN apk add --no-cache jq curl zip vault 
+RUN apk update && apk add --no-cache jq curl zip vault 
 
 CMD ["/bin/sh"]
