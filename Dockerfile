@@ -4,11 +4,8 @@ WORKDIR $GOPATH/src/vault-backend-migrator
 COPY . .
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /tmp/vault-backend-migrator
 
-FROM alpine
+FROM google/cloud-sdk:alpine
 COPY --from=builder /tmp/vault-backend-migrator /vault-backend-migrator
-RUN apk add --no-cache jq curl zip vault bash
-RUN curl -sSL https://sdk.cloud.google.com | bash
-
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+RUN apk add --no-cache jq curl zip vault 
 
 CMD ["/bin/sh"]
