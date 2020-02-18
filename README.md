@@ -8,9 +8,8 @@ Right now this tool really only supports the `secret`/`kv` backend (version 1 in
 
 ##### Setup
 
-You'll want to `go get -f -u github.com/adamdecaf/vault-backend-migrator` this project. It will pull down the vault source code to your GOPATH too.
+You'll want to `go get -f -u bitbucket.org/bestsellerit/vault-backend-migrator` this project. It will pull down the vault source code to your GOPATH too.
 
-There's also a [docker image](https://hub.docker.com/r/adamdecaf/vault-backend-migrator): `docker pull adamdecaf/vault-backend-migrator`
 
 ##### Exporting
 
@@ -60,8 +59,3 @@ This tool reads all the `VAULT_*` environment variables as the vault cli does. Y
 
 This project uses [Go Modules](https://github.com/golang/go/wiki/Modules) and thus requires Go 1.11+.
 
-## Releases
-
-There are various makefile commands for building parts of the release `make release` builds and pushes everything.
-
-You can run `make docker` to build a tagged docker image.
