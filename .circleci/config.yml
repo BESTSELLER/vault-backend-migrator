@@ -5,7 +5,7 @@ executors:
     docker:
       - image: docker:stable-git
 orbs:
-  secret-injector: bestsellerit/secret-injector@0.0.217
+  secret-injector: bestsellerit/secret-injector@1.0.4
 
 jobs:
   build_n_push:
@@ -31,8 +31,6 @@ workflows:
   build_deploy:
     jobs:
       - secret-injector/dump-secrets:
-          vault-path: ES/gke/es02-prod
-          output-type: json
           context: es02-prod
           # filters:
           #   branches:
