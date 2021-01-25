@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: vault-backend-migrator
+  description: A tool to export and import (migrate) data across vault clusters.
+  tags:
+    - vault
+    - kubernetes
+    - golang
+  annotations:
+    github.com/project-slug:  BESTSELLER/vault-backend-migrator
+    circleci.com/project-slug: github/BESTSELLER/vault-backend-migrator
+spec:
+  type: service
+  lifecycle: experimental
+  owner: engineering-services
+---
